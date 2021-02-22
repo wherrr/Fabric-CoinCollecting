@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+	"PPP",
+	"PCP",
+	"PPP"
+  ],
+  "key": {
+	"P": {
+	  "tag": "minecraft:planks"
+	},
+	"C": {
+	  "item": "coin_collecting:coin"
+	}
+  },
+  "result": {
+	"item": "coin_collecting:coin_grader"
+  }
+}

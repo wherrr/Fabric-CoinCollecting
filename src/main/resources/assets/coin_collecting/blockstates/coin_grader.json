@@ -1,0 +1,7 @@
+{
+  "variants": {
+	"": {
+	  "model": "coin_collecting:block/coin_grader"
+	}
+  }
+}

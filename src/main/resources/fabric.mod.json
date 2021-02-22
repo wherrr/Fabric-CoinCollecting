@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "coin_collecting",
   "version": "${version}",
-
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  
+  "name": "Coin Collecting",
+  "description": "This mod allows you to collect coins",
   "authors": [
-    "Me!"
+	"wherr/wherrr"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+	"homepage": "",
+	"sources": "https://github.com/wherrr/Fabric_CoinCollecting"
   },
-
+  
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
-
+  "icon": "assets/coin_collecting/icon.png",
+  
   "environment": "*",
   "entrypoints": {
-    "main": [
-      "net.fabricmc.example.ExampleMod"
-    ]
+	"main": [
+	  "io.github.wherrr.coincollecting.Main"
+	]
   },
   "mixins": [
-    "modid.mixins.json"
+	
   ],
-
+  
   "depends": {
-    "fabricloader": ">=0.7.4",
-    "fabric": "*",
-    "minecraft": "1.16.x"
+	"fabricloader": ">=0.7.4",
+	"fabric": "*",
+	"minecraft": "1.16.x"
   },
   "suggests": {
-    "another-mod": "*"
+	
   }
 }

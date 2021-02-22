@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "coin_collecting:block/coin_grader"
+  }
+}
