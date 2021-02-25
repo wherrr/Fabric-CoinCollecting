@@ -41,8 +41,8 @@ public class CoinPurseItem extends Item
 			// Place in an empty slot
 			if (slotItem.isEmpty())
 			{
-				// I believe method_32756 tries to set the slot to the item passed to it and it returns what is left over. This will then be added back to the purse
-				removeRandomCoin(purse).ifPresent(coin -> addToPurse(purse, slot.method_32756(coin)));
+				// I believe method_32756 tries to set the slot to the item passed to it
+				removeRandomCoin(purse).ifPresent(slot::method_32756);
 			}
 			// Pick up from a non-empty slot only if it is a coin
 			else if (slotItem.getItem() instanceof Coin)
