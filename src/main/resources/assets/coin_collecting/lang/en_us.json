@@ -1,6 +1,7 @@
 {
   "item.coin_collecting.coin": "Coin",
   "item.coin_collecting.coin_purse": "Coin Purse",
+  "item.coin_collecting.coin_purse.fullness": "%s Coins",
   "block.coin_collecting.coin_grader": "Coin Grader",
   "itemGroup.coin_collecting.general": "Coin Collecting Mod"
 }

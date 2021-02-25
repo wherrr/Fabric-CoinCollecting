@@ -7,7 +7,7 @@ import net.minecraft.util.registry.Registry;
 
 public class ModItems
 {
-	public static final Item COIN = new Item(new FabricItemSettings().group(Main.COIN_COLLECTING_TAB).maxCount(1));
+	public static final Coin COIN = new Coin(new FabricItemSettings().group(Main.COIN_COLLECTING_TAB).maxCount(1));
 	public static final CoinPurseItem COIN_PURSE = new CoinPurseItem(new FabricItemSettings().group(Main.COIN_COLLECTING_TAB).maxCount(1));
 	
 	public static <T extends Item> void registerItem(String identifierPath, T item)
