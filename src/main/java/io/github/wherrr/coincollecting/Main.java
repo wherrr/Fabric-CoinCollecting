@@ -9,7 +9,7 @@ import net.minecraft.util.Identifier;
 public class Main implements ModInitializer
 {
 	public static final String MOD_ID = "coin_collecting";
-	public static final ItemGroup COIN_COLLECTING_TAB = FabricItemGroupBuilder.build(new Identifier(Main.MOD_ID, "general"), () -> new ItemStack(ModItems.COIN));
+	public static final ItemGroup COIN_COLLECTING_TAB = FabricItemGroupBuilder.build(new Identifier(Main.MOD_ID, "general"), () -> new ItemStack(ModItems.OVERWORLD_COIN));
 	
 	@Override
 	public void onInitialize()

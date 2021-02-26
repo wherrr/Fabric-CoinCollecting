@@ -23,7 +23,7 @@
 	]
   },
   "mixins": [
-	
+	"coin_collecting.mixins.json"
   ],
   
   "depends": {

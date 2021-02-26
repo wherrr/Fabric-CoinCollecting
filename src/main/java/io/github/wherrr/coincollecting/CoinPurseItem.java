@@ -45,7 +45,7 @@ public class CoinPurseItem extends Item
 				removeRandomCoin(purse).ifPresent(slot::method_32756);
 			}
 			// Pick up from a non-empty slot only if it is a coin
-			else if (slotItem.getItem() instanceof Coin)
+			else if (slotItem.getItem() instanceof CoinItem)
 			{
 				addToPurse(purse, slot.takeStack(1));
 			}
@@ -66,7 +66,7 @@ public class CoinPurseItem extends Item
 				removeRandomCoin(purse).ifPresent(playerInventory::setCursorStack);
 			}
 			// Put item in purse if it is a coin
-			else if (heldStack.getItem() instanceof Coin)
+			else if (heldStack.getItem() instanceof CoinItem)
 			{
 				addToPurse(purse, heldStack);
 				heldStack.decrement(1);
@@ -80,7 +80,7 @@ public class CoinPurseItem extends Item
 		}
 	}
 	
-	private void addToPurse(ItemStack purse, ItemStack coin)
+	public static void addToPurse(ItemStack purse, ItemStack coin)
 	{
 		CompoundTag purseTags = purse.getOrCreateTag();
 		ListTag items = new ListTag();
