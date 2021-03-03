@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-	"layer0": "coin_collecting:item/coin"
+	"layer0": "coin_collecting:item/overworld_coin"
   }
 }

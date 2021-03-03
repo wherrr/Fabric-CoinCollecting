@@ -1,5 +1,6 @@
 {
-  "item.coin_collecting.coin": "Coin",
+  "item.coin_collecting.overworld_coin": "Overworld Coin",
+  "item.coin_collecting.coin.year": "Year: %d",
   "item.coin_collecting.coin_purse": "Coin Purse",
   "item.coin_collecting.coin_purse.fullness": "%s Coins",
   "block.coin_collecting.coin_grader": "Coin Grader",

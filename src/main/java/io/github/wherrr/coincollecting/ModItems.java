@@ -5,6 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
+
 public class ModItems
 {
 	public static final CoinItem OVERWORLD_COIN = new CoinItem(new FabricItemSettings().group(Main.COIN_COLLECTING_TAB).maxCount(1).fireproof());
@@ -17,7 +18,7 @@ public class ModItems
 	
 	public static void registerItems()
 	{
-		registerItem("coin", OVERWORLD_COIN);
+		registerItem("overworld_coin", OVERWORLD_COIN);
 		registerItem("coin_purse", COIN_PURSE);
 	}
 }
