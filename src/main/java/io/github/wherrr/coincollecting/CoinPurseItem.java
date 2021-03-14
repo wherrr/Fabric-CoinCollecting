@@ -3,7 +3,8 @@ package io.github.wherrr.coincollecting;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.CommandItemSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
@@ -28,7 +29,7 @@ public class CoinPurseItem extends Item
 	
 	// Holding purse and right-clicking a slot
 	@Override
-	public boolean onStackClicked(ItemStack purse, Slot slot, ClickType clickType, PlayerInventory playerInventory)
+	public boolean onStackClicked(ItemStack purse, Slot slot, ClickType clickType, PlayerEntity player)
 	{
 		if (clickType != ClickType.RIGHT)
 		{
@@ -56,14 +57,14 @@ public class CoinPurseItem extends Item
 	
 	// Right-clicking the purse
 	@Override
-	public boolean onClicked(ItemStack purse, ItemStack heldStack, Slot slot, ClickType clickType, PlayerInventory playerInventory)
+	public boolean onClicked(ItemStack purse, ItemStack heldStack, Slot slot, ClickType clickType, PlayerEntity player, CommandItemSlot commandItemSlot)
 	{
-		if (clickType == ClickType.RIGHT && slot.method_32754(playerInventory.player))
+		if (clickType == ClickType.RIGHT && slot.method_32754(player))
 		{
 			// Grab from the purse if hand is empty
 			if (heldStack.isEmpty())
 			{
-				removeRandomCoin(purse).ifPresent(playerInventory::setCursorStack);
+				removeRandomCoin(purse).ifPresent(commandItemSlot::set);
 			}
 			// Put item in purse if it is a coin
 			else if (heldStack.getItem() instanceof CoinItem)
