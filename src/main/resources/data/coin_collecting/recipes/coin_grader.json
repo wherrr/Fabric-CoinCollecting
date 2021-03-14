@@ -10,7 +10,7 @@
 	  "tag": "minecraft:planks"
 	},
 	"C": {
-	  "item": "coin_collecting:coin"
+	  "item": "coin_collecting:overworld_coin"
 	}
   },
   "result": {

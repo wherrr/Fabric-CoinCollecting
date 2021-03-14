@@ -15,6 +15,7 @@ public class Main implements ModInitializer
 	public void onInitialize()
 	{
 		ModItems.registerItems();
+		ModItems.registerLootTables();
 		ModBlocks.registerBlocks();
 	}
 }

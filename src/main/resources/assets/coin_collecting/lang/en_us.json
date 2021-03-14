@@ -1,8 +1,12 @@
 {
-  "item.coin_collecting.overworld_coin": "Overworld Coin",
-  "item.coin_collecting.coin.year": "Year: %d",
+  "itemGroup.coin_collecting.general": "Coin Collecting Mod",
+  "block.coin_collecting.coin_grader": "Coin Grader",
   "item.coin_collecting.coin_purse": "Coin Purse",
   "item.coin_collecting.coin_purse.fullness": "%s Coins",
-  "block.coin_collecting.coin_grader": "Coin Grader",
-  "itemGroup.coin_collecting.general": "Coin Collecting Mod"
+  
+  "item.coin_collecting.coin.year": "Year: %s",
+  "item.coin_collecting.coin.mint": "Mint: %s",
+  "item.coin_collecting.coin.quality": "Quality: %s%%",
+  "item.coin_collecting.coin.cleanliness": "Cleanliness: %s%%",
+  "item.coin_collecting.overworld_coin": "Overworld Coin"
 }
