@@ -7,8 +7,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.CommandItemSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -42,8 +42,7 @@ public class CoinPurseItem extends Item
 			// Place in an empty slot
 			if (slotItem.isEmpty())
 			{
-				// I believe method_32756 tries to set the slot to the item passed to it
-				removeRandomCoin(purse).ifPresent(slot::method_32756);
+				removeRandomCoin(purse).ifPresent(slot::insertStack);
 			}
 			// Pick up from a non-empty slot only if it is a coin
 			else if (slotItem.getItem() instanceof CoinItem)
@@ -59,7 +58,7 @@ public class CoinPurseItem extends Item
 	@Override
 	public boolean onClicked(ItemStack purse, ItemStack heldStack, Slot slot, ClickType clickType, PlayerEntity player, CommandItemSlot commandItemSlot)
 	{
-		if (clickType == ClickType.RIGHT && slot.method_32754(player))
+		if (clickType == ClickType.RIGHT && slot.canTakePartial(player))
 		{
 			// Grab from the purse if hand is empty
 			if (heldStack.isEmpty())
@@ -83,8 +82,8 @@ public class CoinPurseItem extends Item
 	
 	public static void addToPurse(ItemStack purse, ItemStack coin)
 	{
-		CompoundTag purseTags = purse.getOrCreateTag();
-		ListTag items = new ListTag();
+		NbtCompound purseTags = purse.getOrCreateTag();
+		NbtList items = new NbtList();
 		
 		// Add the Items tag if it doesn't exist
 		if (!purseTags.contains("Items"))
@@ -97,14 +96,14 @@ public class CoinPurseItem extends Item
 		}
 		
 		// Write the coin to a CompoundTag and add that to the items
-		CompoundTag coinTags = new CompoundTag();
+		NbtCompound coinTags = new NbtCompound();
 		coin.writeNbt(coinTags);
 		items.add(0,coinTags);
 	}
 	
 	private Optional<ItemStack> removeRandomCoin(ItemStack purse)
 	{
-		CompoundTag purseTags = purse.getOrCreateTag();
+		NbtCompound purseTags = purse.getOrCreateTag();
 		if (!purseTags.contains("Items"))
 		{
 			// Return nothing if the purse it empty
@@ -112,7 +111,7 @@ public class CoinPurseItem extends Item
 		}
 		else
 		{
-			ListTag items = purseTags.getList("Items", 10);
+			NbtList items = purseTags.getList("Items", 10);
 			if (items.isEmpty())
 			{
 				return Optional.empty();
@@ -121,7 +120,7 @@ public class CoinPurseItem extends Item
 			{
 				int numberOfItems = items.size();
 				int random = new Random().nextInt(numberOfItems);
-				CompoundTag item = items.getCompound(random);
+				NbtCompound item = items.getCompound(random);
 				ItemStack itemStack = ItemStack.fromNbt(item);
 				
 				items.remove(random);
@@ -137,11 +136,11 @@ public class CoinPurseItem extends Item
 	}
 	
 	private static int getPurseOccupancy(ItemStack purse) {
-		CompoundTag purseTags = purse.getTag();
+		NbtCompound purseTags = purse.getTag();
 		if (purseTags == null) {
 			return 0;
 		} else {
-			ListTag listTag = purseTags.getList("Items", 10);
+			NbtList listTag = purseTags.getList("Items", 10);
 			return listTag.size();
 		}
 	}

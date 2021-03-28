@@ -1,19 +1,16 @@
 package io.github.wherrr.coincollecting;
 
-import com.google.common.base.Function;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 
 import java.time.Year;
-import java.util.List;
+import java.util.*;
 
 public class CoinItem extends Item
 {
@@ -22,25 +19,46 @@ public class CoinItem extends Item
 		super(settings);
 	}
 	
-	public static CompoundTag GenerateTags()
+	// This map defines how much each info tag affects the quality (not all tags do)
+	public static final Map<String, Integer> QUALITY_TAGS;
+	
+	static
+	{
+		Map<String, Integer> map = new HashMap<>();
+		map.put("Scratches", -1);
+		map.put("BigScratches", -3);
+		
+		QUALITY_TAGS = Collections.unmodifiableMap(map);
+	}
+	
+	// This map defines how much each info tag affects the cleanliness (not all tags do)
+	public static final Map<String, Integer> CLEAN_TAGS;
+	
+	static
+	{
+		Map<String, Integer> map = new HashMap<>();
+		map.put("Dirt", -1);
+		
+		CLEAN_TAGS = Collections.unmodifiableMap(map);
+	}
+	
+	public static NbtCompound GenerateTags()
 	{
 		// Main tags
-		CompoundTag compoundTag = new CompoundTag();
-		CompoundTag coinInfo = new CompoundTag();
+		NbtCompound compoundTag = new NbtCompound();
+		NbtCompound coinInfo = new NbtCompound();
 		
 		// Info tags
-		CompoundTag year = new CompoundTag();
-		CompoundTag mint = new CompoundTag();
-		CompoundTag scratches = new CompoundTag();
-		CompoundTag bigScratches = new CompoundTag();
-		CompoundTag dirt = new CompoundTag();
+		NbtCompound year = new NbtCompound();
+		NbtCompound mint = new NbtCompound();
+		NbtCompound quality = new NbtCompound();
+		NbtCompound cleanliness = new NbtCompound();
 		
 		// Set all values to disabled by default
 		year.putBoolean("Enabled", true);
 		mint.putBoolean("Enabled", true);
-		scratches.putBoolean("Enabled", true);
-		bigScratches.putBoolean("Enabled", true);
-		dirt.putBoolean("Enabled", true);
+		quality.putBoolean("Enabled", true);
+		cleanliness.putBoolean("Enabled", true);
 		
 		// Randomize info
 		// Year between 1.0 release date and current date
@@ -49,16 +67,19 @@ public class CoinItem extends Item
 		year.putInt("Value", (int) (Math.random() * (yearMax - yearMin) + (yearMin)));
 		
 		mint.putString("Value", CoinMint.getRandom().toString());
-		scratches.putFloat("Value", (float) Math.random());
-		bigScratches.putFloat("Value", (float) Math.random());
-		dirt.putFloat("Value", (float) Math.random());
+		
+		// Put qualities into the quality info
+		quality.putFloat("Scratches", (float) Math.random());
+		quality.putFloat("BigScratches", (float) Math.random());
+		
+		// Put clean qualities into the cleanliness info
+		cleanliness.putFloat("Dirt", (float) Math.random());
 		
 		// Put info into the coin info
 		coinInfo.put("Year", year);
 		coinInfo.put("Mint", mint);
-		coinInfo.put("Scratches", scratches);
-		coinInfo.put("BigScratches", bigScratches);
-		coinInfo.put("Dirt", dirt);
+		coinInfo.put("Quality", quality);
+		coinInfo.put("Cleanliness", cleanliness);
 		
 		// Put coin info into the main tag
 		compoundTag.put("CoinInfo", coinInfo);
@@ -69,7 +90,7 @@ public class CoinItem extends Item
 	@Override
 	public void appendTooltip(ItemStack coin, World world, List<Text> tooltip, TooltipContext tooltipContext)
 	{
-		CompoundTag coinTags = coin.getOrCreateTag();
+		NbtCompound coinTags = coin.getOrCreateTag();
 		
 		// If no coinInfo exists don't add any tooltips
 		if (!coinTags.contains("CoinInfo"))
@@ -77,41 +98,70 @@ public class CoinItem extends Item
 			return;
 		}
 		
-		CompoundTag coinInfo = coinTags.getCompound("CoinInfo");
+		NbtCompound coinInfo = coinTags.getCompound("CoinInfo");
 		
 		Formatting formatting = Formatting.GRAY;
 		
 		// These will be structured like this {Enabled:,Value:}
 		addTooltip(tooltip, formatting, coinInfo, "Year");
 		addTooltip(tooltip, formatting, coinInfo, "Mint");
-		addTooltip(tooltip, formatting, coinInfo, "Scratches");
-		addTooltip(tooltip, formatting, coinInfo, "BigScratches");
-		addTooltip(tooltip, formatting, coinInfo, "Dirt");
 		
-		/*
-		CompoundTag scratches = coinInfo.getCompound("Scratches");
-		CompoundTag bigScratches = coinInfo.getCompound("BigScratches");
+		// The quality and cleanliness tags are structured like this {Enabled:, {Value:, Value:}}
+		NbtCompound qualityInfo = coinInfo.getCompound("Quality");
+		NbtCompound cleanlinessInfo = coinInfo.getCompound("Cleanliness");
 		
-		if (scratches.getBoolean("Enabled") && bigScratches.getBoolean("Enabled"))
-		{
-			// Big scratches are 3 times as worse as regular scratches when looking at quality
-			float quality = 1 - (((bigScratches.getFloat("Value") * 3) + scratches.getFloat("Value")) / 4);
-		}
-		*/
+		addQualityTooltip(tooltip, formatting, qualityInfo, QUALITY_TAGS, "quality");
+		addQualityTooltip(tooltip, formatting, cleanlinessInfo, CLEAN_TAGS, "cleanliness");
 	}
 	
-	private void addTooltip(List<Text> tooltip, Formatting formatting, CompoundTag parentTag, String childTagName)
+	private void addTooltip(List<Text> tooltip, Formatting formatting, NbtCompound parentTag, String childTagName)
 	{
-		CompoundTag childTag = parentTag.getCompound(childTagName);
+		NbtCompound childTag = parentTag.getCompound(childTagName);
+		String childTagValue = Objects.requireNonNull(childTag.get("Value")).asString();
 		
 		if (childTag.getBoolean("Enabled"))
 		{
-			tooltip.add(new TranslatableText("item.coin_collecting.coin." + childTagName.toLowerCase(), childTag.getString("Value")).formatted(formatting));
+			tooltip.add(new TranslatableText("item.coin_collecting.coin." + childTagName.toLowerCase(), childTagValue).formatted(formatting));
 		}
 	}
 	
-	private float getQuality(CompoundTag[] compoundTags)
+	private void addQualityTooltip(List<Text> tooltip, Formatting formatting, NbtCompound qualityInfo, Map<String, Integer> qualityMap, String translationText)
 	{
-		return 0f;
+		if (qualityInfo.getBoolean("Enabled"))
+		{
+			float quality = getQuality(qualityInfo, qualityMap) * 100;
+			String qualityString = String.format("%.00f", quality);
+			
+			tooltip.add(new TranslatableText("item.coin_collecting.coin." + translationText, qualityString).formatted(formatting));
+		}
+	}
+	
+	private float getQuality(NbtCompound qualityInfo, Map<String, Integer> qualityMap)
+	{
+		float maxQuality = 0;
+		float quality = 0;
+		
+		for (String tag : qualityMap.keySet())
+		{
+			int weight = qualityMap.get(tag);
+			float value = qualityInfo.getFloat(tag);
+			
+			// Start the quality at the max quality
+			maxQuality += Math.abs(weight);
+			quality += Math.abs(weight);
+			
+			if (weight <= 0)
+			{
+				// Subtract any negative qualities from the total quality
+				quality -= value * Math.abs(weight);
+			}
+			else
+			{
+				// Subtract the lack of positive qualities (1 - value) from the total quality
+				quality -= (1 - value) * weight;
+			}
+		}
+		
+		return quality / maxQuality;
 	}
 }

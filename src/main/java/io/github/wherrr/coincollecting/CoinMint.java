@@ -1,8 +1,7 @@
 package io.github.wherrr.coincollecting;
 
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.NbtElement;
 
-import java.util.Locale;
 import java.util.Random;
 
 public enum CoinMint
@@ -66,7 +65,7 @@ public enum CoinMint
 	}
 	
 	// Checks if the given tag is in the enum and returns it if it is. Otherwise, it returns a string tag with "NA"
-	public static Tag checkTag(Tag tag)
+	public static NbtElement checkTag(NbtElement tag)
 	{
 		try
 		{
