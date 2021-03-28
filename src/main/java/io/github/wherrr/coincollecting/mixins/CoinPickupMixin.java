@@ -3,6 +3,7 @@ package io.github.wherrr.coincollecting.mixins;
 import io.github.wherrr.coincollecting.CoinItem;
 import io.github.wherrr.coincollecting.CoinPurseItem;
 import io.github.wherrr.coincollecting.ModItems;
+import jdk.internal.org.objectweb.asm.Opcodes;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.Entity;
@@ -30,7 +31,7 @@ public abstract class CoinPickupMixin extends Entity
 	
 	@Shadow	private int pickupDelay;
 	
-	@Inject(at = @At(value = "FIELD", target = "Lnet/minecraft/entity/ItemEntity;pickupDelay:Ljava/lang/Integer"), method = "onPlayerCollision(Lnet/minecraft/entity/player/PlayerEntity;)V", cancellable = true)
+	@Inject(at = @At(value = "FIELD", opcode = Opcodes.GETFIELD, ordinal = 0, target = "pickupDelay"), method = "onPlayerCollision(Lnet/minecraft/entity/player/PlayerEntity;)V", cancellable = true)
 	private void onPlayerCollision(PlayerEntity player, CallbackInfo info)
 	{
 		ItemEntity itemEntity = (ItemEntity) (Object) this;
