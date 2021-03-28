@@ -3,7 +3,6 @@ package io.github.wherrr.coincollecting.mixins;
 import io.github.wherrr.coincollecting.CoinItem;
 import io.github.wherrr.coincollecting.CoinPurseItem;
 import io.github.wherrr.coincollecting.ModItems;
-import jdk.internal.org.objectweb.asm.Opcodes;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.Entity;
