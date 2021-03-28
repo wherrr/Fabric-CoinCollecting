@@ -12,7 +12,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.command.SummonCommand;
 import net.minecraft.stat.Stats;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -31,7 +30,7 @@ public abstract class CoinPickupMixin extends Entity
 	
 	@Shadow	private int pickupDelay;
 	
-	@Inject(at = @At(value = "FIELD", target = "pickupDelay"), method = "onPlayerCollision(Lnet/minecraft/entity/player/PlayerEntity;)V", cancellable = true)
+	@Inject(at = @At(value = "FIELD", target = "net.minecraft.entity.ItemEntity.pickupDelay"), method = "onPlayerCollision(Lnet/minecraft/entity/player/PlayerEntity;)V", cancellable = true)
 	private void onPlayerCollision(PlayerEntity player, CallbackInfo info)
 	{
 		ItemEntity itemEntity = (ItemEntity) (Object) this;
