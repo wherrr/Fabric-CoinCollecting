@@ -19,7 +19,7 @@ public class ModBlocks
 			.strength(3.5f, 5.83f)
 			.sounds(BlockSoundGroup.METAL));
 	
-	public static <T extends Block> void registerBlock(String identifierPath, T block, FabricItemSettings itemSettings)
+	private static <T extends Block> void registerBlock(String identifierPath, T block, FabricItemSettings itemSettings)
 	{
 		Registry.register(Registry.BLOCK, new Identifier(Main.MOD_ID, identifierPath), block);
 		Registry.register(Registry.ITEM, new Identifier(Main.MOD_ID, identifierPath), new BlockItem(block, itemSettings));

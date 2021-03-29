@@ -3,6 +3,7 @@ package io.github.wherrr.coincollecting;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -14,10 +15,8 @@ import java.util.*;
 
 public class CoinItem extends Item
 {
-	public CoinItem(Settings settings)
-	{
-		super(settings);
-	}
+	// Year between 1.0 release date and current date
+	public static final UniformLootNumberProvider YEAR_RANGE = UniformLootNumberProvider.create(2011, Year.now().getValue());
 	
 	// This map defines how much each info tag affects the quality (not all tags do)
 	public static final Map<String, Integer> QUALITY_TAGS;
@@ -42,7 +41,53 @@ public class CoinItem extends Item
 		CLEAN_TAGS = Collections.unmodifiableMap(map);
 	}
 	
-	public static NbtCompound GenerateTags()
+	public CoinItem(Settings settings)
+	{
+		super(settings);
+	}
+	
+	public static NbtCompound generateEmptyTags()
+	{
+		// Main tags
+		NbtCompound compoundTag = new NbtCompound();
+		NbtCompound coinInfo = new NbtCompound();
+		
+		// Info tags
+		NbtCompound year = new NbtCompound();
+		NbtCompound mint = new NbtCompound();
+		NbtCompound quality = new NbtCompound();
+		NbtCompound cleanliness = new NbtCompound();
+		
+		// Set all values to disabled by default
+		year.putBoolean("Enabled", true);
+		mint.putBoolean("Enabled", true);
+		quality.putBoolean("Enabled", true);
+		cleanliness.putBoolean("Enabled", true);
+		
+		// Set values to undefined
+		year.putInt("Value", -1);
+		mint.putString("Value", "undefined");
+		
+		// Put qualities into the quality info
+		quality.putFloat("Scratches", -1f);
+		quality.putFloat("BigScratches", -1f);
+		
+		// Put clean qualities into the cleanliness info
+		cleanliness.putFloat("Dirt", -1f);
+		
+		// Put info into the coin info
+		coinInfo.put("Year", year);
+		coinInfo.put("Mint", mint);
+		coinInfo.put("Quality", quality);
+		coinInfo.put("Cleanliness", cleanliness);
+		
+		// Put coin info into the main tag
+		compoundTag.put("CoinInfo", coinInfo);
+		
+		return compoundTag;
+	}
+	
+	public static NbtCompound generateTags()
 	{
 		// Main tags
 		NbtCompound compoundTag = new NbtCompound();
@@ -61,7 +106,7 @@ public class CoinItem extends Item
 		cleanliness.putBoolean("Enabled", true);
 		
 		// Randomize info
-		// Year between 1.0 release date and current date
+		
 		int yearMin = 2011;
 		int yearMax = Year.now().getValue();
 		year.putInt("Value", (int) (Math.random() * (yearMax - yearMin) + (yearMin)));

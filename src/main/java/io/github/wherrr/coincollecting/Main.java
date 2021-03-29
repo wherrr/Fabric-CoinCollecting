@@ -17,5 +17,6 @@ public class Main implements ModInitializer
 		ModItems.registerItems();
 		ModItems.registerLootTables();
 		ModBlocks.registerBlocks();
+		ModLootFunctionTypes.registerLootFunctionTypes();
 	}
 }

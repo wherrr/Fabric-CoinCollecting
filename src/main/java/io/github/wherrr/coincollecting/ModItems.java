@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.SetNbtLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
+import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -16,7 +17,7 @@ public class ModItems
 	public static final CoinItem OVERWORLD_COIN = new CoinItem(new FabricItemSettings().group(Main.COIN_COLLECTING_TAB).maxCount(1).fireproof());
 	public static final CoinPurseItem COIN_PURSE = new CoinPurseItem(new FabricItemSettings().group(Main.COIN_COLLECTING_TAB).maxCount(1).fireproof());
 	
-	public static <T extends Item> void registerItem(String identifierPath, T item)
+	private static <T extends Item> void registerItem(String identifierPath, T item)
 	{
 		Registry.register(Registry.ITEM, new Identifier(Main.MOD_ID, identifierPath), item);
 	}
@@ -38,7 +39,12 @@ public class ModItems
 				FabricLootPoolBuilder poolBuilder = FabricLootPoolBuilder.builder()
 						.rolls(ConstantLootNumberProvider.create(1))
 						.with(ItemEntry.builder(OVERWORLD_COIN))
-						.withFunction(SetNbtLootFunction.builder(CoinItem.GenerateTags()).build());
+						.withFunction(SetNbtLootFunction.builder(CoinItem.generateEmptyTags()).build())
+						.withFunction(RandomizeNbtNumberLootFunction.builder("CoinInfo.Year.Value", CoinItem.YEAR_RANGE).build())
+						// TODO mint
+						.withFunction(RandomizeNbtNumberLootFunction.builder("CoinInfo.Quality.Scratches", UniformLootNumberProvider.create(0, 1)).build())
+						.withFunction(RandomizeNbtNumberLootFunction.builder("CoinInfo.Quality.BigScratches", UniformLootNumberProvider.create(0, 1)).build())
+						.withFunction(RandomizeNbtNumberLootFunction.builder("CoinInfo.Cleanliness.Dirt", UniformLootNumberProvider.create(0, 1)).build());
 				
 				supplier.withPool(poolBuilder.build());
 			}
