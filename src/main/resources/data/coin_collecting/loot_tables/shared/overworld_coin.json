@@ -1,0 +1,77 @@
+{
+  "pools": [
+	{
+	  "rolls": 1,
+	  "conditions": [
+		{
+		  "condition": "minecraft:random_chance_with_looting",
+		  "chance": 0.1,
+		  "looting_multiplier": 0.05
+		}
+	  ],
+	  "entries": [
+		{
+		  "type": "minecraft:item",
+		  "name": "coin_collecting:overworld_coin",
+		  "functions": [
+			{
+			  "function": "minecraft:set_nbt",
+			  "tag": "{CoinInfo:{Year:{Enabled:1b,Value:-1},Mint:{Enabled:1b,Value:\"undefined\"},Quality:{Enabled:1b,Scratches:-1f,BigScratches:-1f,Luster:-1f},Cleanliness:{Enabled:1b,Dirt:-1f}}}"
+			},
+			{
+			  "function": "coin_collecting:randomize_nbt_number",
+			  "target": "CoinInfo.Year.Value",
+			  "range": {
+				"min": 2011,
+				"max": 2021
+			  }
+			},
+			{
+			  "function": "coin_collecting:randomize_nbt_string",
+			  "target": "CoinInfo.Mint.Value",
+			  "strings": [
+				"Plains Village",
+				"Desert Village",
+				"Savanna Village",
+				"Snowy Village",
+				"Taiga Village"
+			  ]
+			},
+			{
+			  "function": "coin_collecting:randomize_nbt_number",
+			  "target": "CoinInfo.Quality.Scratches",
+			  "range": {
+				"min": 0,
+				"max": 1
+			  }
+			},
+			{
+			  "function": "coin_collecting:randomize_nbt_number",
+			  "target": "CoinInfo.Quality.BigScratches",
+			  "range": {
+				"min": 0,
+				"max": 1
+			  }
+			},
+			{
+			  "function": "coin_collecting:randomize_nbt_number",
+			  "target": "CoinInfo.Quality.Luster",
+			  "range": {
+				"min": 0,
+				"max": 1
+			  }
+			},
+			{
+			  "function": "coin_collecting:randomize_nbt_number",
+			  "target": "CoinInfo.Cleanliness.Dirt",
+			  "range": {
+				"min": 0,
+				"max": 1
+			  }
+			}
+		  ]
+		}
+	  ]
+	}
+  ]
+}

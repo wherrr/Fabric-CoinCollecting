@@ -24,9 +24,9 @@ public class CoinItem extends Item
 	static
 	{
 		Map<String, Integer> map = new HashMap<>();
-		map.put("Scratches", -1);
-		map.put("BigScratches", -3);
-		map.put("Luster", 1);
+		map.put("Scratches", -2);
+		map.put("BigScratches", -6);
+		map.put("Luster", 3);
 		
 		QUALITY_TAGS = Collections.unmodifiableMap(map);
 	}
