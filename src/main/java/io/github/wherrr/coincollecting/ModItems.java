@@ -33,15 +33,14 @@ public class ModItems
 	public static void registerLootTables()
 	{
 		final Identifier ZOMBIE_LOOT_TABLE_ID = new Identifier("minecraft","entities/zombie");
-		final Identifier OVERWORLD_COIN_LOOT_TABLE_ID = new Identifier(Main.MOD_ID, "shared/overworld_coin");
+		final Identifier ZOMBIE_OVERWORLD_COIN_LOOT_TABLE_ID = new Identifier(Main.MOD_ID, "shared/zombie_overworld_coin");
 		
 		LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, id, supplier, setter) ->
 		{
 			if (ZOMBIE_LOOT_TABLE_ID.equals(id))
-			{/*
+			{
 				FabricLootPoolBuilder poolBuilder = FabricLootPoolBuilder.builder()
-						.rolls(ConstantLootNumberProvider.create(1))
-						.withCondition(RandomChanceWithLootingLootCondition.builder(0.10f, 0.05f).build())
+						.with(LootTableEntry.builder(ZOMBIE_OVERWORLD_COIN_LOOT_TABLE_ID))
 						.with(ItemEntry.builder(OVERWORLD_COIN))
 						.withFunction(SetNbtLootFunction.builder(CoinItem.generateEmptyTags()).build())
 						.withFunction(RandomizeNbtNumberLootFunction.builder("CoinInfo.Year.Value", CoinItem.YEAR_RANGE).build())
@@ -51,10 +50,6 @@ public class ModItems
 						.withFunction(RandomizeNbtNumberLootFunction.builder("CoinInfo.Quality.Luster", UniformLootNumberProvider.create(0, 1)).build())
 						.withFunction(RandomizeNbtNumberLootFunction.builder("CoinInfo.Cleanliness.Dirt", UniformLootNumberProvider.create(0, 1)).build());
 				
-				supplier.withPool(poolBuilder.build());*/
-				
-				FabricLootPoolBuilder poolBuilder = FabricLootPoolBuilder.builder()
-						.with(LootTableEntry.builder(OVERWORLD_COIN_LOOT_TABLE_ID));
 				supplier.withPool(poolBuilder.build());
 			}
 		});
