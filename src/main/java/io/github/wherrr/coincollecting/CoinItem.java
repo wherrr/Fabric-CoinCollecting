@@ -26,6 +26,7 @@ public class CoinItem extends Item
 		Map<String, Integer> map = new HashMap<>();
 		map.put("Scratches", -1);
 		map.put("BigScratches", -3);
+		map.put("Luster", 1);
 		
 		QUALITY_TAGS = Collections.unmodifiableMap(map);
 	}
@@ -71,6 +72,7 @@ public class CoinItem extends Item
 		// Put qualities into the quality info
 		quality.putFloat("Scratches", -1f);
 		quality.putFloat("BigScratches", -1f);
+		quality.putFloat("Luster", -1f);
 		
 		// Put clean qualities into the cleanliness info
 		cleanliness.putFloat("Dirt", -1f);

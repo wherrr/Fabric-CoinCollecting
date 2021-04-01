@@ -11,7 +11,7 @@ public class CoinMints
 			new CoinMint("Desert Village","DV"),
 			new CoinMint("Savanna Village","SAV"),
 			new CoinMint("Snowy Village","SNV"),
-			new CoinMint("Taiga VIllage","TV")
+			new CoinMint("Taiga Village","TV")
 	};
 	
 	// Convert a CoinMint array to a String array using CoinMint.name

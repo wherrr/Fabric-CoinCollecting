@@ -46,6 +46,7 @@ public class ModItems
 						.withFunction(RandomizeNbtStringLootFunction.builder("CoinInfo.Mint.Value", CoinMints.getNames(CoinMints.COIN_MINT_OVERWORLD)).build())
 						.withFunction(RandomizeNbtNumberLootFunction.builder("CoinInfo.Quality.Scratches", UniformLootNumberProvider.create(0, 1)).build())
 						.withFunction(RandomizeNbtNumberLootFunction.builder("CoinInfo.Quality.BigScratches", UniformLootNumberProvider.create(0, 1)).build())
+						.withFunction(RandomizeNbtNumberLootFunction.builder("CoinInfo.Quality.Luster", UniformLootNumberProvider.create(0, 1)).build())
 						.withFunction(RandomizeNbtNumberLootFunction.builder("CoinInfo.Cleanliness.Dirt", UniformLootNumberProvider.create(0, 1)).build());
 				
 				supplier.withPool(poolBuilder.build());
