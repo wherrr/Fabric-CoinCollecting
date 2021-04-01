@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
 import net.minecraft.item.Item;
+import net.minecraft.loot.condition.RandomChanceWithLootingLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.SetNbtLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
@@ -38,10 +39,11 @@ public class ModItems
 			{
 				FabricLootPoolBuilder poolBuilder = FabricLootPoolBuilder.builder()
 						.rolls(ConstantLootNumberProvider.create(1))
+						.withCondition(RandomChanceWithLootingLootCondition.builder(0.10f, 0.05f).build())
 						.with(ItemEntry.builder(OVERWORLD_COIN))
 						.withFunction(SetNbtLootFunction.builder(CoinItem.generateEmptyTags()).build())
 						.withFunction(RandomizeNbtNumberLootFunction.builder("CoinInfo.Year.Value", CoinItem.YEAR_RANGE).build())
-						// TODO mint
+						.withFunction(RandomizeNbtStringLootFunction.builder("CoinInfo.Mint.Value", CoinMints.getNames(CoinMints.COIN_MINT_OVERWORLD)).build())
 						.withFunction(RandomizeNbtNumberLootFunction.builder("CoinInfo.Quality.Scratches", UniformLootNumberProvider.create(0, 1)).build())
 						.withFunction(RandomizeNbtNumberLootFunction.builder("CoinInfo.Quality.BigScratches", UniformLootNumberProvider.create(0, 1)).build())
 						.withFunction(RandomizeNbtNumberLootFunction.builder("CoinInfo.Cleanliness.Dirt", UniformLootNumberProvider.create(0, 1)).build());

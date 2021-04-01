@@ -111,7 +111,7 @@ public class CoinItem extends Item
 		int yearMax = Year.now().getValue();
 		year.putInt("Value", (int) (Math.random() * (yearMax - yearMin) + (yearMin)));
 		
-		mint.putString("Value", CoinMint.getRandom().toString());
+		mint.putString("Value", CoinMints.getRandom(CoinMints.COIN_MINT_OVERWORLD).name);
 		
 		// Put qualities into the quality info
 		quality.putFloat("Scratches", (float) Math.random());

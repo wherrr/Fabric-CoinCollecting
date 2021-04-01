@@ -13,6 +13,9 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.JsonHelper;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class RandomizeNbtNumberLootFunction extends ConditionalLootFunction
 {
 	// target will be a string that is . delimited
@@ -37,12 +40,10 @@ public class RandomizeNbtNumberLootFunction extends ConditionalLootFunction
 		String targetName = targetArray[targetDepth];
 		
 		// Find the target
-		NbtCompound rootCompound = stack.getTag();
-		NbtCompound currentCompound = rootCompound;
+		NbtCompound currentCompound = stack.getTag();
 		
 		if (currentCompound != null)
 		{
-			System.out.println("Found: " + currentCompound);
 			for (int i = 0; i < targetDepth; i++)
 			{
 				currentCompound = currentCompound.getCompound(targetArray[i]);
@@ -50,14 +51,9 @@ public class RandomizeNbtNumberLootFunction extends ConditionalLootFunction
 			
 			// Handle randomizing the target
 			NbtElement targetElement = currentCompound.get(targetName);
-			System.out.println("Target Container: " + currentCompound);
-			System.out.println("Target Depth: " + targetDepth);
-			System.out.println("Target Name: " + targetName);
-			System.out.println("Target: " + targetElement);
 			if (targetElement != null)
 			{
 				float random = range.nextFloat(context);
-				System.out.println("Target Type: " + targetElement.getType());
 				switch (targetElement.getType())
 				{
 					case 1:
@@ -74,7 +70,6 @@ public class RandomizeNbtNumberLootFunction extends ConditionalLootFunction
 						break;
 					case 5:
 						currentCompound.putFloat(targetName, random);
-						System.out.println("Random: " + currentCompound);
 						break;
 					case 6:
 						currentCompound.putDouble(targetName, random);
@@ -82,7 +77,7 @@ public class RandomizeNbtNumberLootFunction extends ConditionalLootFunction
 				}
 			}
 		}
-		System.out.println("Root: " + rootCompound);
+		
 		return stack;
 	}
 	
