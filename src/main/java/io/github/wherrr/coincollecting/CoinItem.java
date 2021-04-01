@@ -87,51 +87,6 @@ public class CoinItem extends Item
 		return compoundTag;
 	}
 	
-	public static NbtCompound generateTags()
-	{
-		// Main tags
-		NbtCompound compoundTag = new NbtCompound();
-		NbtCompound coinInfo = new NbtCompound();
-		
-		// Info tags
-		NbtCompound year = new NbtCompound();
-		NbtCompound mint = new NbtCompound();
-		NbtCompound quality = new NbtCompound();
-		NbtCompound cleanliness = new NbtCompound();
-		
-		// Set all values to disabled by default
-		year.putBoolean("Enabled", true);
-		mint.putBoolean("Enabled", true);
-		quality.putBoolean("Enabled", true);
-		cleanliness.putBoolean("Enabled", true);
-		
-		// Randomize info
-		
-		int yearMin = 2011;
-		int yearMax = Year.now().getValue();
-		year.putInt("Value", (int) (Math.random() * (yearMax - yearMin) + (yearMin)));
-		
-		mint.putString("Value", CoinMints.getRandom(CoinMints.COIN_MINT_OVERWORLD).name);
-		
-		// Put qualities into the quality info
-		quality.putFloat("Scratches", (float) Math.random());
-		quality.putFloat("BigScratches", (float) Math.random());
-		
-		// Put clean qualities into the cleanliness info
-		cleanliness.putFloat("Dirt", (float) Math.random());
-		
-		// Put info into the coin info
-		coinInfo.put("Year", year);
-		coinInfo.put("Mint", mint);
-		coinInfo.put("Quality", quality);
-		coinInfo.put("Cleanliness", cleanliness);
-		
-		// Put coin info into the main tag
-		compoundTag.put("CoinInfo", coinInfo);
-		
-		return compoundTag;
-	}
-	
 	@Override
 	public void appendTooltip(ItemStack coin, World world, List<Text> tooltip, TooltipContext tooltipContext)
 	{

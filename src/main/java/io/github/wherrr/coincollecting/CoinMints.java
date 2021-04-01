@@ -1,7 +1,5 @@
 package io.github.wherrr.coincollecting;
 
-import net.minecraft.nbt.NbtElement;
-
 import java.util.Random;
 
 public class CoinMints
