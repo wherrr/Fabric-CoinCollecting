@@ -30,21 +30,19 @@ public class ModItems
 		registerItem("coin_purse", COIN_PURSE);
 	}
 	
-	public static void registerLootTables()
+	public static void registerCoinLootTable(Identifier editTable, Identifier mergeTable, CoinItem coin, CoinMint[] coinMint)
 	{
-		final Identifier ZOMBIE_LOOT_TABLE_ID = new Identifier("minecraft","entities/zombie");
-		final Identifier ZOMBIE_OVERWORLD_COIN_LOOT_TABLE_ID = new Identifier(Main.MOD_ID, "shared/zombie_overworld_coin");
-		
 		LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, id, supplier, setter) ->
 		{
-			if (ZOMBIE_LOOT_TABLE_ID.equals(id))
+			if (editTable.equals(id))
 			{
+				
 				FabricLootPoolBuilder poolBuilder = FabricLootPoolBuilder.builder()
-						.with(LootTableEntry.builder(ZOMBIE_OVERWORLD_COIN_LOOT_TABLE_ID))
-						.with(ItemEntry.builder(OVERWORLD_COIN))
+						.with(LootTableEntry.builder(mergeTable))
+						.with(ItemEntry.builder(coin))
 						.withFunction(SetNbtLootFunction.builder(CoinItem.generateEmptyTags()).build())
 						.withFunction(RandomizeNbtNumberLootFunction.builder("CoinInfo.Year.Value", CoinItem.YEAR_RANGE).build())
-						.withFunction(RandomizeNbtStringLootFunction.builder("CoinInfo.Mint.Value", CoinMints.getNames(CoinMints.COIN_MINT_OVERWORLD)).build())
+						.withFunction(RandomizeNbtStringLootFunction.builder("CoinInfo.Mint.Value", CoinMints.getNames(coinMint)).build())
 						.withFunction(RandomizeNbtNumberLootFunction.builder("CoinInfo.Quality.Scratches", UniformLootNumberProvider.create(0, 1)).build())
 						.withFunction(RandomizeNbtNumberLootFunction.builder("CoinInfo.Quality.BigScratches", UniformLootNumberProvider.create(0, 1)).build())
 						.withFunction(RandomizeNbtNumberLootFunction.builder("CoinInfo.Quality.Luster", UniformLootNumberProvider.create(0, 1)).build())
@@ -53,5 +51,13 @@ public class ModItems
 				supplier.withPool(poolBuilder.build());
 			}
 		});
+	}
+	
+	public static void registerLootTables()
+	{
+		final Identifier ZOMBIE_LOOT_TABLE_ID = new Identifier("minecraft","entities/zombie");
+		final Identifier ZOMBIE_OVERWORLD_COIN_LOOT_TABLE_ID = new Identifier(Main.MOD_ID, "shared/zombie_overworld_coin");
+		
+		registerCoinLootTable(ZOMBIE_LOOT_TABLE_ID, ZOMBIE_OVERWORLD_COIN_LOOT_TABLE_ID, OVERWORLD_COIN, CoinMints.COIN_MINT_OVERWORLD);
 	}
 }
